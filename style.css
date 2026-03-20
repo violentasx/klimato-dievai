@@ -471,6 +471,11 @@ a.ci-value:hover { color: var(--blue); }
 ::-webkit-scrollbar-thumb { background: var(--blue-dark); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 ::selection { background: var(--blue); color: var(--white); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--blue-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue); }
+::selection { background: var(--blue); color: var(--white); }
 
 /* ══════════════════════════════════════════
    PRISITAIKANTIS DIZAINAS (RESPONSIVE)

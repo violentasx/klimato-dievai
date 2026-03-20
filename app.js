@@ -496,7 +496,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');
   const formSuccess = document.getElementById('formSuccess');
   if (form) {
-    form.addEventListener('submit', () => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
       const btn = document.getElementById('submitBtn');
       btn.innerHTML = '<span>Siunčiama...</span>';
       btn.style.opacity = '0.7';
