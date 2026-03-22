@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agentas - Kondicionieriaus Prilipinimas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --surface: #121a30;
+      --border: #2a365e;
+      --text: #e6edff;
+      --muted: #95a3c7;
+      --accent: #2fc4ff;
+      --ok: #28d17c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at 30% 0%, #1a2442, var(--bg));
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+    .sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: color-mix(in srgb, var(--surface), #000 8%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .field { margin-bottom: 12px; }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    input[type="file"], select, button {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0f1527;
+      color: var(--text);
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+    button {
+      cursor: pointer;
+      background: linear-gradient(135deg, #1387ff, var(--accent));
+      border: none;
+      color: #00142b;
+      font-weight: 700;
+    }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+    .hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+    .stage {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #090d1a;
+      min-height: 360px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .ok {
+      color: var(--ok);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>AI agentas: kondicionieriaus prilipinimas prie sienos</h1>
+    <p class="sub">Agentas turi vieną funkciją - automatiškai uždėti pasirinktą kondicionierių ant nufotografuotos kambario sienos.</p>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="field">
+          <label for="roomPhotoInput">1) Kambario nuotrauka</label>
+          <input id="roomPhotoInput" type="file" accept="image/*">
+        </div>
+        <div class="field">
+          <label for="modelSelect">2) Kondicionierius</label>
+          <select id="modelSelect">
+            <option value="">Pasirinkite modelį...</option>
+          </select>
+        </div>
+        <div class="field">
+          <button id="attachBtn" disabled>Prilipinti prie sienos</button>
+        </div>
+        <div id="statusText" class="hint">
+          Įkelkite nuotrauką ir pasirinkite modelį.
+        </div>
+      </section>
+
+      <section class="stage">
+        <div class="badge">Peržiūra</div>
+        <canvas id="wallCanvas"></canvas>
+      </section>
+    </div>
+  </div>
+
+  <script src="salna-models.js"></script>
+  <script src="ai-agent-kondicionierius.js"></script>
+</body>
+</html>

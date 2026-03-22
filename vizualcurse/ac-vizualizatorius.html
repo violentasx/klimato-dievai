@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KlimaViz – Kondicionieriaus Vizualizatorius</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ac-vizualizatorius.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Klima<em>Viz</em></div>
+  <div class="steps">
+    <div class="st active" id="st1" onclick="goTo(1)">
+      <div class="st-num">1</div><span>Nuotrauka</span>
+    </div>
+    <div class="st-sep" id="sep1"></div>
+    <div class="st" id="st2" onclick="goTo(2)">
+      <div class="st-num">2</div><span>Pasirinkimas</span>
+    </div>
+    <div class="st-sep" id="sep2"></div>
+    <div class="st" id="st3" onclick="goTo(3)">
+      <div class="st-num">3</div><span>Užsakymas</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══ PANEL 1: CAMERA ══ -->
+<div class="panel active" id="panel1">
+  <div class="sec-title">Nufotografuokite sieną</div>
+  <div class="sec-sub">Laikykite telefoną/kamerą horizontaliai, 2–3 m atstumu nuo sienos.</div>
+
+  <div class="cam-layout">
+    <div class="cam-box">
+      <video id="videoEl" autoplay muted playsinline></video>
+      <canvas id="photoCanvas"></canvas>
+      <div class="cam-overlay">
+        <div class="c-frame"></div>
+        <div class="c-corner tl"></div><div class="c-corner tr"></div>
+        <div class="c-corner bl"></div><div class="c-corner br"></div>
+        <div class="c-dist">
+          <div class="c-dist-v">~2.5 m</div>
+          <div class="c-dist-l">ATSTUMAS</div>
+        </div>
+        <div class="c-level">
+          <div class="c-dot"></div>
+          <span>HORIZONTALU · GERA POZICIJA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cam-panel">
+      <div class="cam-panel-title">📐 Fotografavimo instrukcija</div>
+      <div class="guide-item"><div class="gi-icon">📏</div><div class="gi-text"><strong>2–3 metrų atstumas</strong><small>Stovėkite tiesiai priešais sieną – proporcijos bus tikslesnės.</small></div></div>
+      <div class="guide-item"><div class="gi-icon">📱</div><div class="gi-text"><strong>Horizontali padėtis</strong><small>Telefoną laikykite krūtinės aukštyje, lygiagrečiai sienai.</small></div></div>
+      <div class="guide-item"><div class="gi-icon">💡</div><div class="gi-text"><strong>Geras apšvietimas</strong><small>Siena turi būti aiški – be stiprių šešėlių ar atspindžių.</small></div></div>
+      <div class="guide-item"><div class="gi-icon">🔲</div><div class="gi-text"><strong>Centruokite sieną</strong><small>Siena turi užimti didžiąją dalį kadro pagal mėlyną rėmelį.</small></div></div>
+      <button class="btn-cap" id="btnCap">📸 FOTOGRAFUOTI</button>
+      <button class="btn-sec" onclick="document.getElementById('fi').click()">📁 Įkelti iš galerijos</button>
+      <input type="file" id="fi" accept="image/*" style="display:none">
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <div></div>
+    <button class="btn-next" id="toP2" disabled onclick="goTo(2)">Pasirinkti bloką →</button>
+  </div>
+</div>
+
+<!-- ══ PANEL 2: VISUALIZER ══ -->
+<div class="panel" id="panel2">
+  <div class="sec-title">Vizualizuokite ir pasirinkite</div>
+  <div class="sec-sub">Spustelėkite modelį – jis atsiras ant sienos. Vilkite pele į norimą vietą. Lyginimui spustelėkite „Lyginti".</div>
+
+  <div class="viz-layout">
+    <!-- Canvas preview -->
+    <div>
+      <div class="preview-wrap">
+        <canvas id="wallCanvas"></canvas>
+        <div class="preview-hint" id="phint">← Pasirinkite bloką iš sąrašo</div>
+      </div>
+    </div>
+
+    <!-- Side panel -->
+    <div class="side-panel">
+      <!-- Room calculator -->
+      <div class="room-calc">
+        <div class="rc-title">🏠 Kambario skaičiuoklė</div>
+        <div class="rc-row">
+          <div class="rc-field"><label>Plotis (m)</label><input type="number" id="rW" value="4" min="1" max="30" step="0.1" oninput="calcRoom()"></div>
+          <div class="rc-field"><label>Ilgis (m)</label><input type="number" id="rL" value="5" min="1" max="30" step="0.1" oninput="calcRoom()"></div>
+          <div class="rc-field"><label>Aukštis (m)</label><input type="number" id="rH" value="2.7" min="1.8" max="6" step="0.1" oninput="calcRoom()"></div>
+        </div>
+        <div class="rc-result" id="rcResult">
+          <div class="rc-kw">2.5–3.0 kW rekomenduojama</div>
+          <div class="rc-note" id="rcNote">20 m² · gera izolacija</div>
+        </div>
+      </div>
+
+      <!-- Model list -->
+      <div class="model-section">
+        <div class="ms-header">
+          <div class="ms-title">🔧 Modeliai</div>
+          <div class="compare-count" id="cmpCount" style="display:none">0 lyginimui</div>
+        </div>
+        <input class="search-box" id="searchBox" placeholder="🔍 Ieškoti gamintoją ar modelį..." oninput="renderModels()">
+        <div class="filter-row" id="filterRow"></div>
+        <div class="model-list" id="modelList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <div style="display:flex;gap:10px">
+      <button class="btn-back" onclick="goTo(1)">← Atgal</button>
+      <button class="btn-sec" id="btnCompare" style="padding:10px 18px;border-radius:10px" onclick="openCompare()">⚖️ Palyginti (<span id="cmpN">0</span>)</button>
+    </div>
+    <button class="btn-next" id="toP3" disabled onclick="goTo(3)">Užsakyti →</button>
+  </div>
+</div>
+
+<!-- ══ PANEL 3: ORDER ══ -->
+<div class="panel" id="panel3">
+  <div class="sec-title">Užsakymo forma</div>
+  <div class="sec-sub">Patikrinkite pasirinkimą ir užpildykite kontaktinius duomenis.</div>
+
+  <div id="orderContent">
+    <div class="order-layout">
+      <div class="sel-summary">
+        <canvas id="summCanvas"></canvas>
+        <div class="summ-body">
+          <div class="summ-brand" id="sBrand"></div>
+          <div class="summ-name" id="sName"></div>
+          <div class="summ-price" id="sPrice"></div>
+          <table class="summ-tbl" id="sTbl"></table>
+        </div>
+      </div>
+
+      <div class="order-form">
+        <div class="of-title">📋 Kontaktinė informacija</div>
+        <div class="of-sub">Susisieksime per 24 val. dėl montavimo datos.</div>
+        <div class="f2">
+          <div class="fg"><label>Vardas</label><input class="fi" id="fVardas" placeholder="Jonas"></div>
+          <div class="fg"><label>Pavardė</label><input class="fi" id="fPavarde" placeholder="Jonaitis"></div>
+        </div>
+        <div class="fg"><label>El. paštas</label><input type="email" class="fi" id="fEmail" placeholder="jonas@email.lt"></div>
+        <div class="fg"><label>Telefonas</label><input type="tel" class="fi" id="fTel" placeholder="+370 600 00000"></div>
+        <div class="fg"><label>Adresas</label><input class="fi" id="fAdr" placeholder="Gatvė, miestas"></div>
+        <div class="fg">
+          <label>Pageidaujamas laikas</label>
+          <select class="fs" id="fLaikas">
+            <option value="">Pasirinkite...</option>
+            <option>Kuo greičiau</option>
+            <option>Per 1 savaitę</option>
+            <option>Per 2 savaites</option>
+            <option>Per mėnesį</option>
+            <option>Susiderinam telefonu</option>
+          </select>
+        </div>
+        <div class="fg"><label>Pastabos</label><textarea class="fta" id="fPast" placeholder="Papildoma informacija..."></textarea></div>
+        <button class="btn-order" onclick="submitOrder()">✅ PATEIKTI UŽSAKYMĄ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="successScreen">
+    <div class="suc-icon">✓</div>
+    <div class="suc-title">Užsakymas priimtas!</div>
+    <div class="suc-sub">Ačiū už užsakymą.<br>Susisieksime su Jumis per 24 val. dėl montavimo datos.</div>
+    <div class="ref-box">
+      <div class="ref-lbl">Užsakymo numeris</div>
+      <div class="ref-num" id="refNum"></div>
+    </div>
+  </div>
+
+  <div class="nav-row" id="orderNav">
+    <button class="btn-back" onclick="goTo(2)">← Atgal</button>
+  </div>
+</div>
+
+<!-- ══ COMPARISON MODAL ══ -->
+<div class="modal-bg" id="cmpModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCompare()">✕</button>
+    <div class="modal-title">⚖️ Modelių palyginimas</div>
+    <div id="cmpContent"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="salna-models.js"></script>
+<script src="ac-vizualizatorius.js"></script>
+</body>
+</html>
