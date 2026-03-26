@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   KLIMATO DIEVAI – JavaScript
+   atvesk – JavaScript
    ═══════════════════════════════════════════ */
 
 const VISI_VAIZDAI = [
@@ -135,6 +135,12 @@ const RODYTI_DAUGIAU  = 16;
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── Fono video: autoplay po naršyklės apribojimų (muted) ── */
+  document.querySelectorAll('video.hero-video-bg, video.section-bg-video').forEach((v) => {
+    v.muted = true;
+    v.play().catch(() => {});
+  });
+
   /* ── Progreso juosta ── */
   const progressBar = document.createElement('div');
   progressBar.className = 'progress-bar';
@@ -212,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const img = document.createElement('img');
       img.src = VISI_VAIZDAI[i];
-      img.alt = `Klimato Dievai – darbas ${i + 1}`;
+      img.alt = `atvesk – darbas ${i + 1}`;
       img.loading = 'lazy';
 
       const overlay = document.createElement('div');
@@ -275,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function atnaujintiLightbox() {
     lbImg.src = VISI_VAIZDAI[lbIndex];
-    lbTitle.textContent = `Klimato Dievai – Darbas #${lbIndex + 1}`;
+    lbTitle.textContent = `atvesk – Darbas #${lbIndex + 1}`;
     lbCounter.textContent = `${lbIndex + 1} / ${VISI_VAIZDAI.length}`;
     lbPrev.style.opacity = lbIndex === 0 ? '0.3' : '1';
     lbNext.style.opacity = lbIndex === VISI_VAIZDAI.length - 1 ? '0.3' : '1';
@@ -335,6 +341,59 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.4 });
   document.querySelectorAll('section[id]').forEach(s => secObs.observe(s));
 
+  /* ── Pardavimai: visi kondicionieriai iš salna-models.js ── */
+  const productsGrid = document.getElementById('productsGrid');
+  if (productsGrid && Array.isArray(window.SALNA_MODELS)) {
+    const formatEur = (n) => {
+      return new Intl.NumberFormat('lt-LT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + ' €';
+    };
+    const skaiciuotiMusuKaina = (salnaKaina) => {
+      const nuolaida = Math.min(salnaKaina * 0.05, 60);
+      const musu = salnaKaina - nuolaida;
+      return { musu, nuolaida };
+    };
+
+    const modeliai = window.SALNA_MODELS
+      .filter((m) => Number(m.kaina_EUR) > 0 && Number(m.galia_kW) > 0)
+      .sort((a, b) => Number(a.kaina_EUR) - Number(b.kaina_EUR));
+
+    productsGrid.innerHTML = '';
+    modeliai.forEach((m, idx) => {
+      const salnaKaina = Number(m.kaina_EUR);
+      const { musu, nuolaida } = skaiciuotiMusuKaina(salnaKaina);
+      const energetine = m.energijos_klase || 'A++';
+      const tipas = m.tipas || 'Sieninis kondicionierius';
+      const imageUrl = m.imageUrl || 'img/kondicionieriai/2025-04-17/IMG_20250417_131347.jpg';
+      const brand = m.gamintojas || 'Gamintojas';
+      const modelis = m.modelis || 'Modelis';
+      const galia = Number(m.galia_kW).toFixed(1).replace('.', ',');
+      const triuksmas = Number(m.triuksmas_dB) > 0 ? Number(m.triuksmas_dB) : 'n/d';
+
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-img-wrap">
+          <img src="${imageUrl}" alt="${modelis}" class="product-img" loading="lazy" referrerpolicy="no-referrer" />
+          ${idx < 3 ? '<div class="product-badge">Populiaru</div>' : ''}
+        </div>
+        <div class="product-body">
+          <div class="product-brand">${brand}</div>
+          <h3>${modelis}</h3>
+          <p>${tipas}. Energijos klasė ${energetine}. Tinka patalpoms iki ${m.plotas_m2 || 'n/d'} m².</p>
+          <div class="product-price">Mūsų kaina: <strong>${formatEur(musu)}</strong></div>
+          <div class="product-price-note">Salna kaina: ${formatEur(salnaKaina)} (nuolaida ${formatEur(nuolaida)}, max 60 €)</div>
+          <ul class="product-specs">
+            <li>📊 Galia: ${galia} kW</li>
+            <li>🌡️ Energijos klasė: ${energetine}</li>
+            <li>🔊 Triukšmas iki: ${triuksmas} dB</li>
+          </ul>
+          <a href="#kontaktai" class="btn btn-primary product-btn">Užklausti kainos</a>
+        </div>
+      `;
+      productsGrid.appendChild(card);
+    });
+  }
+
   /* ── Produktų kortelių tilt ── */
   document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -346,6 +405,267 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
 
-  console.log('%cKlimato Dievai ⚡🌡️', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
+  /* ══════════════════════════════════════════
+     PRIETAISO REGISTRACIJOS MODALAS
+  ══════════════════════════════════════════ */
+  const regModal      = document.getElementById('regModal');
+  const regClose      = document.getElementById('regClose');
+  const openRegBtns   = document.querySelectorAll('#openRegistration, [data-open-reg]');
+  const regForm       = document.getElementById('regForm');
+  const regSuccess    = document.getElementById('regSuccess');
+  const regUploadArea = document.getElementById('regUploadArea');
+  const regPhoto      = document.getElementById('regPhoto');
+  const regPreview    = document.getElementById('regPreview');
+  const regUploadContent = document.getElementById('regUploadContent');
+  let regFiles = [];
+
+  function openRegModal() {
+    regModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeRegModal() {
+    regModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openRegBtns.forEach(btn => btn.addEventListener('click', openRegModal));
+  regClose.addEventListener('click', closeRegModal);
+  regModal.addEventListener('click', e => { if (e.target === regModal) closeRegModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && regModal.classList.contains('open')) closeRegModal(); });
+
+  regUploadArea.addEventListener('click', () => regPhoto.click());
+  regUploadArea.addEventListener('dragover', e => { e.preventDefault(); regUploadArea.classList.add('drag-over'); });
+  regUploadArea.addEventListener('dragleave', () => regUploadArea.classList.remove('drag-over'));
+  regUploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    regUploadArea.classList.remove('drag-over');
+    handleRegFiles(e.dataTransfer.files);
+  });
+  regPhoto.addEventListener('change', () => handleRegFiles(regPhoto.files));
+
+  function handleRegFiles(fileList) {
+    Array.from(fileList).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      if (regFiles.length >= 5) return;
+      regFiles.push(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'reg-thumb-wrap';
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = file.name;
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'reg-thumb-remove';
+        removeBtn.type = 'button';
+        removeBtn.textContent = '✕';
+        removeBtn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const idx = regFiles.indexOf(file);
+          if (idx > -1) regFiles.splice(idx, 1);
+          wrap.remove();
+          if (regFiles.length === 0) regUploadContent.style.display = '';
+        });
+        wrap.appendChild(img);
+        wrap.appendChild(removeBtn);
+        regPreview.appendChild(wrap);
+        if (regFiles.length > 0) regUploadContent.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (regForm) {
+    regForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('regSubmitBtn');
+      btn.innerHTML = '<span>Siunčiama...</span>';
+      btn.style.opacity = '0.7';
+      btn.disabled = true;
+
+      const vardas    = document.getElementById('regName').value;
+      const tel       = document.getElementById('regPhone').value;
+      const email     = document.getElementById('regEmail').value;
+      const prietaisas = document.getElementById('regDevice').value;
+      const modelis   = document.getElementById('regModel').value;
+      const sn        = document.getElementById('regSerial').value;
+      const gedimas   = document.getElementById('regProblem').value;
+      const nuotraukos = regFiles.length > 0 ? regFiles.length + ' nuotrauka(-os) pridėta(-os)' : 'Nepridėta';
+
+      const subject = encodeURIComponent('Prietaiso registracija – ' + prietaisas + ' ' + modelis);
+      const body = encodeURIComponent(
+        'PRIETAISO REGISTRACIJA\n' +
+        '═══════════════════════\n\n' +
+        'KONTAKTAI:\n' +
+        'Vardas: ' + vardas + '\n' +
+        'Telefonas: ' + tel + '\n' +
+        'El. paštas: ' + email + '\n\n' +
+        'PRIETAISAS:\n' +
+        'Tipas: ' + prietaisas + '\n' +
+        'Modelis: ' + modelis + '\n' +
+        'Serijinis Nr.: ' + (sn || 'Nenurodytas') + '\n\n' +
+        'GEDIMAS:\n' + (gedimas || 'Neaprašytas') + '\n\n' +
+        'Nuotraukos: ' + nuotraukos + '\n' +
+        '(Jei klientas pridėjo nuotraukų, paprašykite atsiųsti jas atskirai)\n'
+      );
+
+      const mailtoLink = 'mailto:lukmantas@gmail.com?subject=' + subject + '&body=' + body;
+
+      setTimeout(() => {
+        window.location.href = mailtoLink;
+        regForm.style.display = 'none';
+        regSuccess.classList.add('show');
+      }, 600);
+    });
+  }
+
+  /* ── Bėganti akcijos lentelė ── */
+  setTimeout(() => {
+    const promo = document.createElement('div');
+    promo.className = 'promo-runner';
+    promo.innerHTML = 'Sveikiname - <strong>Nemokamas kondicionierius sumontavimas</strong>';
+    document.body.appendChild(promo);
+
+    let x = 24;
+    let y = 24;
+    let vx = 1.35;
+    let vy = 1.05;
+    let running = true;
+    const mouse = { x: -9999, y: -9999 };
+    const createdAt = Date.now();
+    let firstChaseAt = 0;
+    let lastInteractionAt = 0;
+
+    function spawnCoolEffect(px, py) {
+      const cool = document.createElement('div');
+      cool.className = 'promo-cool-text';
+      cool.textContent = '❄ vesa';
+      cool.style.left = `${px}px`;
+      cool.style.top = `${py}px`;
+      document.body.appendChild(cool);
+      setTimeout(() => cool.remove(), 900);
+    }
+
+    function markInteraction() {
+      const now = Date.now();
+      if (!firstChaseAt) firstChaseAt = now;
+      lastInteractionAt = now;
+    }
+
+    function escapeFromPoint(px, py, boost = 9.5) {
+      const rect = promo.getBoundingClientRect();
+      const cx = x + rect.width / 2;
+      const cy = y + rect.height / 2;
+      const dx = cx - px;
+      const dy = cy - py;
+      const dist = Math.hypot(dx, dy) || 1;
+      const nx = dx / dist;
+      const ny = dy / dist;
+      vx = nx * boost;
+      vy = ny * boost;
+      markInteraction();
+      spawnCoolEffect(cx, cy);
+    }
+
+    function removePromo() {
+      if (!running) return;
+      running = false;
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mousedown', onMouseDown, true);
+      promo.remove();
+    }
+
+    function bounce() {
+      if (!running) return;
+      const now = Date.now();
+      if (!firstChaseAt && now - createdAt >= 10000) {
+        // Nereagavo 10 s po pasirodymo.
+        removePromo();
+        return;
+      }
+      if (firstChaseAt && (now - firstChaseAt >= 15000 || now - lastInteractionAt >= 10000)) {
+        // 15 s gaudymo arba 10 s be naujos reakcijos.
+        removePromo();
+        return;
+      }
+
+      const rect = promo.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      const maxX = Math.max(0, window.innerWidth - w - 8);
+      const maxY = Math.max(0, window.innerHeight - h - 8);
+
+      x += vx;
+      y += vy;
+
+      if (x <= 0 || x >= maxX) {
+        vx *= -1;
+        x = Math.min(Math.max(x, 0), maxX);
+      }
+      if (y <= 0 || y >= maxY) {
+        vy *= -1;
+        y = Math.min(Math.max(y, 0), maxY);
+      }
+
+      const cx = x + w / 2;
+      const cy = y + h / 2;
+      const dx = cx - mouse.x;
+      const dy = cy - mouse.y;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < 170) {
+        const nx = dx / (dist || 1);
+        const ny = dy / (dist || 1);
+        vx += nx * 0.9;
+        vy += ny * 0.9;
+        const speed = Math.hypot(vx, vy);
+        const minSpeed = 5.6;
+        if (speed < minSpeed) {
+          vx = (vx / (speed || 1)) * minSpeed;
+          vy = (vy / (speed || 1)) * minSpeed;
+        }
+        markInteraction();
+        spawnCoolEffect(cx, cy);
+      }
+
+      promo.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      requestAnimationFrame(bounce);
+    }
+
+    const onMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    const onMouseDown = (e) => {
+      if (!running) return;
+      const rect = promo.getBoundingClientRect();
+      const pad = 26;
+      const inside =
+        e.clientX >= rect.left - pad &&
+        e.clientX <= rect.right + pad &&
+        e.clientY >= rect.top - pad &&
+        e.clientY <= rect.bottom + pad;
+      if (inside) {
+        e.preventDefault();
+        e.stopPropagation();
+        escapeFromPoint(e.clientX, e.clientY, 10.5);
+      }
+    };
+    document.addEventListener('mousedown', onMouseDown, true);
+
+    promo.addEventListener('mouseenter', () => {
+      escapeFromPoint(mouse.x, mouse.y, 9.8);
+    });
+    promo.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      escapeFromPoint(e.clientX, e.clientY, 11.2);
+    });
+
+    requestAnimationFrame(bounce);
+  }, 10000);
+
+  console.log('%catvesk ⚡🌡️', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
   console.log(`%c${VISI_VAIZDAI.length} nuotraukų | lukmantas@gmail.com`, 'color: #64748b;');
 });

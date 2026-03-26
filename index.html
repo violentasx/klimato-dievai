@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klimato Dievai – Kondicionieriai, Šilumos Siurbliai, HVAC Lietuva</title>
-  <meta name="description" content="Klimato Dievai – profesionalus kondicionierių, šilumos siurblių ir šaldymo sistemų montavimas, servisas ir pardavimas Lietuvoje. Gausite geriausią pasiūlymą!" />
-  <meta name="keywords" content="kondicionieriai Lietuva, šilumos siurbliai, HVAC montavimas, šaldymo kameros, freono pildymas, kondicionierių servisas, klimato sistemos" />
-  <meta property="og:title" content="Klimato Dievai – HVAC Specialistai" />
+  <title>atvesk</title>
+  <meta name="description" content="atvesk – profesionalus kondicionierių, šilumos siurblių ir šaldymo sistemų montavimas, servisas ir pardavimas Lietuvoje. Gausite geriausią pasiūlymą!" />
+  <meta name="keywords" content="kondicionieriai Lietuva, šilumos siurbliai, ŠVOK montavimas, šaldymo kameros, freono pildymas, kondicionierių servisas, klimato sistemos" />
+  <meta property="og:title" content="atvesk" />
   <meta property="og:description" content="Profesionalios klimatizacijos ir inžinerinių sistemų paslaugos Lietuvoje." />
   <meta property="og:type" content="website" />
   <meta name="google" content="notranslate" />
@@ -22,17 +22,39 @@
   <div class="header-inner">
     <a href="#hero" class="logo">
       <span class="logo-icon">⚡</span>
-      <span class="logo-text">KLIMATO<strong>DIEVAI</strong></span>
+      <span class="logo-text">AT<strong>VESK</strong></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#paslaugos">Paslaugos</a>
-      <a href="#produktai">Produktai</a>
-      <a href="ac-vizualizatorius.html">AC Vizualizatorius</a>
-      <a href="#darbai">Mūsų darbai</a>
-      <a href="#atsiliepimai">Atsiliepimai</a>
+      <a href="#apie">Apie</a>
+      <div class="nav-item has-submenu">
+        <a href="#paslaugos" class="nav-trigger">Kondicionavimas</a>
+        <div class="submenu" role="menu" aria-label="Kondicionavimo submeniu">
+          <a href="#paslaugos">Kondicionierių montavimas</a>
+          <a href="#paslaugos">Šilumos siurblių montavimas</a>
+          <a href="#freoninis-remontas">Kondicionierių remontas</a>
+          <a href="#paslaugos">Kondicionierių profilaktika</a>
+          <a href="#paslaugos">Kondicionierių demontavimas ir utilizacija</a>
+        </div>
+      </div>
+      <a href="#paslaugos">Vėdinimas</a>
+      <a href="#kontaktai">Issikviesk meistra</a>
+      <div class="nav-item has-submenu">
+        <a href="#paslaugos" class="nav-trigger">Paslaugos</a>
+        <div class="submenu" role="menu" aria-label="Paslaugų submeniu">
+          <a href="#kontaktai">Išsikviesk meistrą</a>
+          <a href="#freoninis-remontas">Freoninių įrenginių remontas</a>
+          <a href="#paslaugos">Šaldymo kambarių ir jų įrangos montavimas</a>
+          <a href="#paslaugos">Kitos paslaugos</a>
+        </div>
+      </div>
+      <a href="galerija.html">Atlikti darbai</a>
+      <a href="#produktai">Pardavimai</a>
       <a href="#kontaktai">Kontaktai</a>
     </nav>
-    <a href="#kontaktai" class="btn btn-primary nav-cta">Gauti pasiūlymą</a>
+    <div class="nav-cta-stack">
+      <a href="#kontaktai" class="btn btn-primary nav-cta">Gauti pasiūlymą</a>
+      <a href="galerija.html" class="nav-shine-link">Atlikti darbai ✨</a>
+    </div>
     <button class="burger" id="burger" aria-label="Meniu">
       <span></span><span></span><span></span>
     </button>
@@ -41,11 +63,15 @@
 
 <!-- ░░ MOBILUSIS MENIU ░░ -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#paslaugos" class="mm-link">Paslaugos</a>
-  <a href="#produktai" class="mm-link">Produktai</a>
-  <a href="ac-vizualizatorius.html" class="mm-link">AC Vizualizatorius</a>
-  <a href="#darbai" class="mm-link">Mūsų darbai</a>
-  <a href="#atsiliepimai" class="mm-link">Atsiliepimai</a>
+  <a href="#apie" class="mm-link">Apie</a>
+  <a href="#paslaugos" class="mm-link">Kondicionavimas</a>
+  <a href="#paslaugos" class="mm-link">Vėdinimas</a>
+  <a href="#kontaktai" class="mm-link">Išsikviesk meistrą</a>
+  <a href="#freoninis-remontas" class="mm-link">Freoninių įrenginių remontas</a>
+  <a href="#paslaugos" class="mm-link">Šaldymo kambarių ir jų įrangos montavimas</a>
+  <a href="#paslaugos" class="mm-link">Kitos paslaugos</a>
+  <a href="galerija.html" class="mm-link">Atlikti darbai</a>
+  <a href="#produktai" class="mm-link">Pardavimai</a>
   <a href="#kontaktai" class="mm-link">Kontaktai</a>
   <a href="tel:+37060000000" class="btn btn-primary mm-cta">📞 Skambinti dabar</a>
 </div>
@@ -53,13 +79,15 @@
 <!-- ░░ HEROJUS ░░ -->
 <section id="hero">
   <div class="hero-bg">
-    <div class="hero-static-img" style="background-image: url('img/kondicionieriai/2026-03-20/pagrindinis.jpg')"></div>
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="video/judantisekranas1.mp4" type="video/mp4" />
+    </video>
     <div class="hero-overlay"></div>
     <div class="hero-grid-overlay"></div>
   </div>
   <div class="hero-content">
-    <div class="hero-badge reveal">⚡ Lietuva · Premium HVAC</div>
-    <h1 class="hero-title reveal">Klimato Dievai –<br/><span class="accent">viskas jūsų komfortui</span></h1>
+    <div class="hero-badge reveal">⚡ Lietuva · Premium ŠVOK</div>
+    <h1 class="hero-title reveal">atvesk –<br/><span class="accent">viskas jūsų komfortui</span></h1>
     <p class="hero-sub reveal">Kondicionieriai · Šilumos siurbliai · Šaldymo sistemos · Servisas</p>
     <div class="hero-btns reveal">
       <a href="#kontaktai" class="btn btn-primary btn-lg">Gauti pasiūlymą</a>
@@ -87,6 +115,7 @@
       <span>Šilumos siurbliai</span><span class="strip-dot">◆</span>
       <span>Šaldymo kameros</span><span class="strip-dot">◆</span>
       <span>Freono pildymas</span><span class="strip-dot">◆</span>
+      <span>Freoninių prietaisų remontas</span><span class="strip-dot">◆</span>
       <span>Santechnika</span><span class="strip-dot">◆</span>
       <span>Elektros instaliacija</span><span class="strip-dot">◆</span>
       <span>Profilaktika</span><span class="strip-dot">◆</span>
@@ -95,6 +124,7 @@
       <span>Šilumos siurbliai</span><span class="strip-dot">◆</span>
       <span>Šaldymo kameros</span><span class="strip-dot">◆</span>
       <span>Freono pildymas</span><span class="strip-dot">◆</span>
+      <span>Freoninių prietaisų remontas</span><span class="strip-dot">◆</span>
       <span>Santechnika</span><span class="strip-dot">◆</span>
       <span>Elektros instaliacija</span><span class="strip-dot">◆</span>
       <span>Profilaktika</span><span class="strip-dot">◆</span>
@@ -115,7 +145,7 @@
     <div class="services-group reveal">
       <div class="services-group-title">
         <span class="sgt-line"></span>
-        <span>Pagrindinės HVAC paslaugos</span>
+        <span>Pagrindinės ŠVOK paslaugos</span>
         <span class="sgt-line"></span>
       </div>
       <div class="services-grid">
@@ -186,22 +216,272 @@
         <div class="service-card service-card-alt">
           <div class="sc-icon">⚡</div>
           <h3>Elektros instaliacija</h3>
-          <p>Elektros kabelių klojimas, skydinės montavimas, automatinių jungiklių įrengimas ir HVAC sistemų elektros prijungimas.</p>
+          <p>Elektros kabelių klojimas, skydinės montavimas, automatinių jungiklių įrengimas ir ŠVOK sistemų elektros prijungimas.</p>
           <a href="#kontaktai" class="sc-link">Užklausti →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nuotraukos (pagal paslaugų tipus) -->
+    <div class="service-photos reveal" id="paslaugu-nuotraukos">
+      <div class="services-group-title">
+        <span class="sgt-line"></span>
+        <span>Nuotraukos</span>
+        <span class="sgt-line"></span>
+      </div>
+
+      <div class="sp-grid">
+        <div class="sp-card">
+          <div class="sp-head">
+            <div class="sp-icon">❄️</div>
+            <div>
+              <div class="sp-title">Kondicionierių montavimas</div>
+              <div class="sp-sub">Iš `nuotraukos/sumontavimai`</div>
+            </div>
+          </div>
+          <div class="sp-photos">
+            <img src="nuotraukos/sumontavimai/418f8b62-7e8d-412c-924b-477a69576778.jpg" alt="Kondicionierių montavimas – nuotrauka 1" loading="lazy" />
+            <img src="nuotraukos/sumontavimai/194.jpg" alt="Kondicionierių montavimas – nuotrauka 2" loading="lazy" />
+            <img src="nuotraukos/sumontavimai/98.jpg" alt="Kondicionierių montavimas – nuotrauka 3" loading="lazy" />
+            <img src="nuotraukos/sumontavimai/108.jpg" alt="Kondicionierių montavimas – nuotrauka 4" loading="lazy" />
+            <img src="nuotraukos/sumontavimai/52.jpg" alt="Kondicionierių montavimas – nuotrauka 5" loading="lazy" />
+            <img src="nuotraukos/sumontavimai/174.jpg" alt="Kondicionierių montavimas – nuotrauka 6" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="sp-card">
+          <div class="sp-head">
+            <div class="sp-icon">🛠️</div>
+            <div>
+              <div class="sp-title">Servisas ir remontas</div>
+              <div class="sp-sub">Iš `nuotraukos/remontai`</div>
+            </div>
+          </div>
+          <div class="sp-photos">
+            <img src="nuotraukos/remontai/47.jpg" alt="Servisas ir remontas – nuotrauka 1" loading="lazy" />
+            <img src="nuotraukos/remontai/130.jpg" alt="Servisas ir remontas – nuotrauka 2" loading="lazy" />
+            <img src="nuotraukos/remontai/28.jpg" alt="Servisas ir remontas – nuotrauka 3" loading="lazy" />
+            <img src="nuotraukos/remontai/109.jpg" alt="Servisas ir remontas – nuotrauka 4" loading="lazy" />
+            <img src="nuotraukos/remontai/140.jpg" alt="Servisas ir remontas – nuotrauka 5" loading="lazy" />
+            <img src="nuotraukos/remontai/142.jpg" alt="Servisas ir remontas – nuotrauka 6" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="sp-card">
+          <div class="sp-head">
+            <div class="sp-icon">✅</div>
+            <div>
+              <div class="sp-title">Profilaktika</div>
+              <div class="sp-sub">Iš `nuotraukos/profilaktikos`</div>
+            </div>
+          </div>
+          <div class="sp-photos">
+            <img src="nuotraukos/profilaktikos/2bc16731-fa79-487f-8278-29977917230f.jpg" alt="Profilaktika – nuotrauka 1" loading="lazy" />
+            <img src="nuotraukos/profilaktikos/115.jpg" alt="Profilaktika – nuotrauka 2" loading="lazy" />
+            <img src="nuotraukos/profilaktikos/116.jpg" alt="Profilaktika – nuotrauka 3" loading="lazy" />
+            <img src="nuotraukos/profilaktikos/117.jpg" alt="Profilaktika – nuotrauka 4" loading="lazy" />
+            <img src="nuotraukos/profilaktikos/118.jpg" alt="Profilaktika – nuotrauka 5" loading="lazy" />
+            <img src="nuotraukos/profilaktikos/0ae50d6e-88c6-4e30-b2ce-6d5136cda0fb.jpg" alt="Profilaktika – nuotrauka 6" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="sp-card">
+          <div class="sp-head">
+            <div class="sp-icon">🏭</div>
+            <div>
+              <div class="sp-title">Šaldymo kameros</div>
+              <div class="sp-sub">Iš `nuotraukos/saldymokamera`</div>
+            </div>
+          </div>
+          <div class="sp-photos">
+            <img src="nuotraukos/saldymokamera/131.jpg" alt="Šaldymo kamera – nuotrauka 1" loading="lazy" />
+            <img src="nuotraukos/saldymokamera/33.jpg" alt="Šaldymo kamera – nuotrauka 2" loading="lazy" />
+            <img src="nuotraukos/saldymokamera/34.jpg" alt="Šaldymo kamera – nuotrauka 3" loading="lazy" />
+            <img src="nuotraukos/saldymokamera/35.jpg" alt="Šaldymo kamera – nuotrauka 4" loading="lazy" />
+            <img src="nuotraukos/saldymokamera/36.jpg" alt="Šaldymo kamera – nuotrauka 5" loading="lazy" />
+            <img src="nuotraukos/saldymokamera/37.jpg" alt="Šaldymo kamera – nuotrauka 6" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="sp-card">
+          <div class="sp-head">
+            <div class="sp-icon">🌬️</div>
+            <div>
+              <div class="sp-title">Ventiliacija</div>
+              <div class="sp-sub">Iš `nuotraukos/ventiliacija`</div>
+            </div>
+          </div>
+          <div class="sp-photos sp-photos-3">
+            <img src="nuotraukos/ventiliacija/68.jpg" alt="Ventiliacija – nuotrauka 1" loading="lazy" />
+            <img src="nuotraukos/ventiliacija/69.jpg" alt="Ventiliacija – nuotrauka 2" loading="lazy" />
+            <img src="nuotraukos/ventiliacija/70.jpg" alt="Ventiliacija – nuotrauka 3" loading="lazy" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ░░ KODĖL MES ░░ -->
-<section class="section section-dark" id="kodel">
+<!-- ░░ FREONINIŲ PRIETAISŲ REMONTAS ░░ -->
+<section id="freoninis-remontas" class="section section-dark">
   <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Freoninių prietaisų remontas</div>
+      <h2>Remontuojame visus<br/><span class="accent">freoninius prietaisus</span></h2>
+      <p>Mūsų komanda turi ilgametę patirtį remontuojant bet kokius freoninius prietaisus – nuo buitinių kondicionierių iki pramoninių šaldymo sistemų.</p>
+    </div>
+
+    <div class="repair-content reveal">
+      <div class="repair-devices">
+        <div class="repair-block">
+          <div class="rb-icon">🔧</div>
+          <h3>Kokius prietaisus remontuojame?</h3>
+          <ul class="repair-list">
+            <li><span class="rl-dot"></span>Sieniniai ir grindų kondicionieriai (split, multi-split)</li>
+            <li><span class="rl-dot"></span>Kanaliniai ir kasetiniai kondicionieriai</li>
+            <li><span class="rl-dot"></span>Šilumos siurbliai (oras-oras, oras-vanduo)</li>
+            <li><span class="rl-dot"></span>Komercinės ir pramoninės šaldymo kameros</li>
+            <li><span class="rl-dot"></span>Šaldymo vitrinai, šaldytuvai, šaldikliai</li>
+            <li><span class="rl-dot"></span>VRF / VRV sistemos</li>
+            <li><span class="rl-dot"></span>Automobilių kondicionieriai</li>
+            <li><span class="rl-dot"></span>Preciziniai serverinių kondicionieriai</li>
+          </ul>
+        </div>
+        <div class="repair-block">
+          <div class="rb-icon">⚙️</div>
+          <h3>Kokie atliekami darbai?</h3>
+          <ul class="repair-list">
+            <li><span class="rl-dot"></span>Kompresoriaus remontas ir keitimas</li>
+            <li><span class="rl-dot"></span>Freono nuotėkio paieška ir šalinimas</li>
+            <li><span class="rl-dot"></span>Freono (R32, R410A, R134a, R404A) pildymas</li>
+            <li><span class="rl-dot"></span>Kondensatoriaus ir garintuvo valymas / keitimas</li>
+            <li><span class="rl-dot"></span>Valdymo plokštės diagnostika ir remontas</li>
+            <li><span class="rl-dot"></span>Termostatų ir jutiklių keitimas</li>
+            <li><span class="rl-dot"></span>Vamzdynų litavimas ir hermetizavimas</li>
+            <li><span class="rl-dot"></span>Sistemos plovimas ir vakuumavimas</li>
+            <li><span class="rl-dot"></span>Srauto reguliatorių (TXV, EEV) keitimas</li>
+            <li><span class="rl-dot"></span>Pilna sistemos diagnostika su ataskaita</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="repair-cta reveal">
+        <div class="repair-cta-inner">
+          <div>
+            <h3>Turite sugedusį prietaisą?</h3>
+            <p>Užregistruokite prietaisą ir gaukite nemokamą diagnostikos įvertinimą per 24 val.</p>
+          </div>
+          <button class="btn btn-primary btn-lg" id="openRegistration">Registruoti prietaisą →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PRIETAISO REGISTRACIJOS MODALAS ░░ -->
+<div class="reg-modal-overlay" id="regModal">
+  <div class="reg-modal">
+    <button class="reg-modal-close" id="regClose">✕</button>
+    <div class="reg-modal-header">
+      <div class="section-tag">Registracija</div>
+      <h2>Prietaiso <span class="accent">registracija</span></h2>
+      <p>Užpildykite formą ir mes su jumis susisieksime dėl remonto arba diagnostikos.</p>
+    </div>
+
+    <form class="reg-form" id="regForm">
+      <div class="reg-section-title">Kontaktinė informacija</div>
+      <div class="cf-row">
+        <div class="cf-group">
+          <label for="regName">Vardas ir pavardė *</label>
+          <input type="text" id="regName" name="Vardas" placeholder="Jonas Jonaitis" required />
+        </div>
+        <div class="cf-group">
+          <label for="regPhone">Telefonas *</label>
+          <input type="tel" id="regPhone" name="Telefonas" placeholder="+370 600 00000" required />
+        </div>
+      </div>
+      <div class="cf-group">
+        <label for="regEmail">El. paštas *</label>
+        <input type="email" id="regEmail" name="ElPastas" placeholder="jonas@gmail.com" required />
+      </div>
+
+      <div class="reg-section-title">Prietaiso informacija</div>
+      <div class="cf-group">
+        <label for="regDevice">Prietaiso pavadinimas *</label>
+        <select id="regDevice" name="Prietaisas" required>
+          <option value="">Pasirinkite prietaiso tipą...</option>
+          <option>Sieninis kondicionierius</option>
+          <option>Grindų kondicionierius</option>
+          <option>Kanalinis kondicionierius</option>
+          <option>Kasetinis kondicionierius</option>
+          <option>Multi-split sistema</option>
+          <option>Šilumos siurblys oras-oras</option>
+          <option>Šilumos siurblys oras-vanduo</option>
+          <option>Šaldymo kamera</option>
+          <option>Šaldymo vitrina</option>
+          <option>Šaldytuvas / Šaldiklis</option>
+          <option>VRF / VRV sistema</option>
+          <option>Automobilinis kondicionierius</option>
+          <option>Kitas prietaisas</option>
+        </select>
+      </div>
+      <div class="cf-row">
+        <div class="cf-group">
+          <label for="regModel">Modelis *</label>
+          <input type="text" id="regModel" name="Modelis" placeholder="pvz. Daikin FTXM25R" required />
+        </div>
+        <div class="cf-group">
+          <label for="regSerial">Serijinis numeris</label>
+          <input type="text" id="regSerial" name="SerijinisNr" placeholder="pvz. 2K12345" />
+        </div>
+      </div>
+      <div class="cf-group">
+        <label for="regProblem">Gedimo aprašymas</label>
+        <textarea id="regProblem" name="Gedimas" placeholder="Aprašykite gedimą: kas neveikia, kada prasidėjo, ar rodo klaidų kodus..." rows="4"></textarea>
+      </div>
+
+      <div class="cf-group">
+        <label>Prietaiso nuotrauka</label>
+        <div class="reg-upload" id="regUploadArea">
+          <input type="file" id="regPhoto" name="Nuotrauka" accept="image/*" multiple hidden />
+          <div class="reg-upload-content" id="regUploadContent">
+            <div class="reg-upload-icon">📷</div>
+            <span>Paspauskite arba vilkite nuotrauką čia</span>
+            <span class="reg-upload-hint">JPG, PNG iki 10MB</span>
+          </div>
+          <div class="reg-upload-preview" id="regPreview"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="regSubmitBtn">
+        <span>Registruoti prietaisą →</span>
+      </button>
+      <div class="cf-note">* Pažymėti laukai privalomi. Susisieksime per 24 val.</div>
+    </form>
+
+    <div class="form-success" id="regSuccess">
+      <div class="fs-icon">✅</div>
+      <h3>Prietaisas užregistruotas!</h3>
+      <p>Gavome jūsų užklausą. Susisieksime su jumis per 24 darbo valandas dėl diagnostikos ir remonto kainos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ░░ APIE MUS ░░ -->
+<section class="section section-dark section-video-bg" id="apie">
+  <div class="section-video-wrap" aria-hidden="true">
+    <video class="section-bg-video" autoplay muted loop playsinline preload="metadata">
+      <source src="video/judantise2.mp4" type="video/mp4" />
+    </video>
+    <div class="section-video-overlay"></div>
+    <div class="section-video-grid"></div>
+  </div>
+  <div class="container section-video-foreground">
     <div class="why-grid">
       <div class="why-text reveal">
-        <div class="section-tag">Kodėl mes?</div>
+        <div class="section-tag">Apie mus</div>
         <h2>Profesionalai,<br/><span class="accent">kurie atsakingi</span><br/>už kiekvieną darbą</h2>
-        <p>Mūsų komanda – sertifikuoti specialistai su daugiau nei 10 metų patirtimi. Naudojame tik kokybiškus įrenginius ir teikiame garantiją kiekvienam darbui.</p>
+        <p><strong>atvesk</strong> – ŠVOK ir šaldymo specialistai visoje Lietuvoje. Montuojame kondicionierius, šilumos siurblius ir šaldymo sistemas, atliekame servisą, diagnostiką ir freoninių prietaisų remontą. Mūsų komanda – sertifikuoti specialistai su daugiau nei 10 metų patirtimi; naudojame patikimą įrangą ir teikiame garantiją kiekvienam darbui.</p>
         <ul class="why-list">
           <li><span class="wl-check">✓</span> Licencijuota ir sertifikuota įmonė</li>
           <li><span class="wl-check">✓</span> Garantija iki 3 metų</li>
@@ -243,79 +523,7 @@
       <h2>Įranga iš pirmaujančių<br/><span class="accent">pasaulio gamintojų</span></h2>
       <p>Parduodame ir montuojame tik patikrintą, aukštos kokybės klimato įrangą su oficialiu garantiniu aptarnavimu.</p>
     </div>
-    <div class="products-grid reveal">
-
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="img/kondicionieriai/2025-04-17/IMG_20250417_131347.jpg" alt="Sieninis kondicionierius" class="product-img" />
-          <div class="product-badge">Populiaru</div>
-        </div>
-        <div class="product-body">
-          <div class="product-brand">Daikin / Mitsubishi / Samsung</div>
-          <h3>Sieninis kondicionierius</h3>
-          <p>Tylus, efektyvus, energija taupantis sieninis kondicionierius namų ir biurų aplinkoms. A+++ klasė.</p>
-          <ul class="product-specs">
-            <li>📊 Galia: 2,5 – 12 kW</li>
-            <li>🌿 Freonas: R32 (ekologiškas)</li>
-            <li>📱 Wi-Fi valdymas</li>
-          </ul>
-          <a href="#kontaktai" class="btn btn-primary product-btn">Užklausti kainos</a>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="img/kondicionieriai/2025-04-18/IMG_20250418_114904.jpg" alt="Multi-split sistema" class="product-img" />
-        </div>
-        <div class="product-body">
-          <div class="product-brand">Daikin / Mitsubishi / LG</div>
-          <h3>Multi-split sistema</h3>
-          <p>Vienas išorinis blokas – keli vidiniai. Idealu butams, biurams ir komercinėms patalpoms.</p>
-          <ul class="product-specs">
-            <li>📊 2–5 vidiniai blokai</li>
-            <li>🏠 Tinka iki 250 m²</li>
-            <li>🎛️ Individualus valdymas</li>
-          </ul>
-          <a href="#kontaktai" class="btn btn-primary product-btn">Užklausti kainos</a>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="img/kondicionieriai/2025-05-29/IMG_20250529_171133.jpg" alt="Šilumos siurblys oras-vanduo" class="product-img" />
-          <div class="product-badge product-badge-green">Taupus</div>
-        </div>
-        <div class="product-body">
-          <div class="product-brand">Bosch / Viessmann / Daikin</div>
-          <h3>Šilumos siurblys oras-vanduo</h3>
-          <p>Moderniausia šildymo technologija. Naudoja 1 kWh elektros – gamina iki 5 kWh šilumos. Tinka ir karšto vandens ruošimui.</p>
-          <ul class="product-specs">
-            <li>📊 Galia: 5 – 20 kW</li>
-            <li>💰 Sutaupymas iki 70%</li>
-            <li>❄️ Veikia iki -25°C</li>
-          </ul>
-          <a href="#kontaktai" class="btn btn-primary product-btn">Užklausti kainos</a>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="img/kondicionieriai/2025-06-02/IMG_20250602_150548.jpg" alt="Šilumos siurblys oras-oras" class="product-img" />
-        </div>
-        <div class="product-body">
-          <div class="product-brand">Daikin / Mitsubishi / Panasonic</div>
-          <h3>Šilumos siurblys oras-oras</h3>
-          <p>Šildo ir vėsina patalpas. Efektyviausia alternatyva tradiciniam kondicionieriui žiemą ir vasarą.</p>
-          <ul class="product-specs">
-            <li>📊 Galia: 3,5 – 14 kW</li>
-            <li>🌡️ Veikia -20°C</li>
-            <li>⚡ Energija: A+++</li>
-          </ul>
-          <a href="#kontaktai" class="btn btn-primary product-btn">Užklausti kainos</a>
-        </div>
-      </div>
-
-    </div>
+    <div class="products-grid reveal" id="productsGrid"></div>
   </div>
 </section>
 
@@ -342,7 +550,7 @@
   <button class="lb-prev" id="lbPrev">‹</button>
   <button class="lb-next" id="lbNext">›</button>
   <div class="lb-content">
-    <img class="lb-img" id="lbImg" src="" alt="Klimato Dievai darbas" />
+    <img class="lb-img" id="lbImg" src="" alt="atvesk darbas" />
     <div class="lb-meta">
       <div class="lb-title" id="lbTitle"></div>
       <div class="lb-counter" id="lbCounter"></div>
@@ -445,12 +653,19 @@
 </div>
 
 <!-- ░░ KONTAKTAI ░░ -->
-<section id="kontaktai" class="section section-dark">
-  <div class="container">
+<section id="kontaktai" class="section section-dark section-video-bg">
+  <div class="section-video-wrap" aria-hidden="true">
+    <video class="section-bg-video" autoplay muted loop playsinline preload="metadata">
+      <source src="video/judantisekranas1.mp4" type="video/mp4" />
+    </video>
+    <div class="section-video-overlay"></div>
+    <div class="section-video-grid"></div>
+  </div>
+  <div class="container section-video-foreground">
     <div class="section-header reveal">
       <div class="section-tag">Kontaktai</div>
-      <h2>Susisiekite su<br/><span class="accent">Klimato Dievais</span></h2>
-      <p>Atsakome per 2 darbo valandas. Skubiam atvejui – skambinkite tiesiogiai.</p>
+      <h2>Susisiekite su<br/><span class="accent">atvesk</span></h2>
+      <p>Rašykite, skambinkite arba užpildykite formą žemiau – atsakome per 2 darbo valandas. Skubiam atvejui skambinkite tiesiogiai.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-info reveal">
@@ -486,7 +701,7 @@
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d145044.6843959!2d25.0!3d54.6892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dd93f5c2b6f015%3A0x400d18c70e9dc40!2sVilnius!5e0!3m2!1slt!2slt!4v1680000000000"
             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            title="Klimato Dievai lokacija Lietuva">
+            title="atvesk lokacija Lietuva">
           </iframe>
         </div>
       </div>
@@ -517,6 +732,7 @@
               <option>Šaldymo įrangos montavimas</option>
               <option>Freoninių sistemų diagnostika</option>
               <option>Servisas ir remontas</option>
+              <option>Freoninių prietaisų remontas</option>
               <option>Freono pildymas</option>
               <option>Profilaktika</option>
               <option>Santechnikos įrengimas</option>
@@ -537,7 +753,7 @@
         <div class="form-success" id="formSuccess">
           <div class="fs-icon">✅</div>
           <h3>Užklausa išsiųsta!</h3>
-          <p>Susisieksime su jumis artimiausiu metu. Ačiū, kad pasirinkote Klimato Dievus!</p>
+          <p>Susisieksime su jumis artimiausiu metu. Ačiū, kad pasirinkote atvesk!</p>
         </div>
       </div>
     </div>
@@ -551,7 +767,7 @@
       <div class="footer-brand">
         <div class="logo">
           <span class="logo-icon">⚡</span>
-          <span class="logo-text">KLIMATO<strong>DIEVAI</strong></span>
+          <span class="logo-text">AT<strong>VESK</strong></span>
         </div>
         <p>Profesionalios klimato sistemų paslaugos visoje Lietuvoje. Kokybė, garantija, patikimumas.</p>
         <div class="footer-social">
@@ -566,15 +782,17 @@
         <a href="#paslaugos">Šilumos siurbliai</a>
         <a href="#paslaugos">Šaldymo kameros</a>
         <a href="#paslaugos">Servisas ir remontas</a>
+        <a href="#freoninis-remontas">Freoninių įrenginių remontas</a>
         <a href="#paslaugos">Freono pildymas</a>
       </div>
       <div class="footer-nav-group">
         <div class="fng-title">Įmonė</div>
-        <a href="#darbai">Mūsų darbai</a>
+        <a href="#apie">Apie</a>
+        <a href="galerija.html">Atlikti darbai</a>
         <a href="#atsiliepimai">Atsiliepimai</a>
         <a href="#kontaktai">Kontaktai</a>
-        <a href="#produktai">Produktai</a>
-        <a href="ac-vizualizatorius.html">AC Vizualizatorius</a>
+        <a href="#produktai">Pardavimai</a>
+        <a href="ac-vizualizatorius.html">Kondicionieriaus vizualizatorius</a>
       </div>
       <div class="footer-nav-group">
         <div class="fng-title">Kontaktai</div>
@@ -584,18 +802,19 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 Klimato Dievai. Visos teisės saugomos.</span>
-      <span>Kondicionieriai · Šilumos siurbliai · HVAC Lietuva</span>
+      <span>© 2025 atvesk. Visos teisės saugomos.</span>
+      <span>Kondicionieriai · Šilumos siurbliai · ŠVOK Lietuva</span>
     </div>
   </div>
 </footer>
 
 <!-- ░░ MOBILUSIS SKAMBINIMO MYGTUKAS ░░ -->
-<a href="tel:+37060000000" class="call-fab" id="callFab" aria-label="Skambinti">
+<a href="tel:+37064835282" class="call-fab" id="callFab" aria-label="Skambinti">
   <span class="cf-icon">📞</span>
   <span class="cf-text">Skambinti</span>
 </a>
 
+<script src="salna-models.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
