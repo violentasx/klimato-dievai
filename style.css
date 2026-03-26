@@ -771,6 +771,9 @@ a.ci-value:hover { color: var(--blue); }
   100% { opacity: 0; transform: translateY(-26px) scale(1.08); }
 }
 
+/* Pagrindiniame puslapyje nuotraukų blokas (nuotraukos/...) neturi būti rodomas. */
+#paslaugu-nuotraukos { display: none !important; }
+
 /* Progreso juosta */
 .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue-dark), var(--blue)); z-index: 1001; transition: width 0.1s linear; width: 0%; }
 
