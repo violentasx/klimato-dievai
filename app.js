@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadMoreBtn = document.getElementById('loadMoreBtn');
   const loadMoreWrap = document.getElementById('loadMoreWrap');
   let rodoma = 0;
+  if (grid && loadMoreBtn && loadMoreWrap) {
 
   function sukurtiGalerijos(kiek) {
     const iki = Math.min(rodoma + kiek, VISI_VAIZDAI.length);
@@ -309,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d < 0 && lbIndex > 0) { lbIndex--; atnaujintiLightbox(); }
     }
   });
+  }
 
   /* ── Kontaktų forma ── */
   const form = document.getElementById('contactForm');
