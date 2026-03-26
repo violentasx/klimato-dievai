@@ -134,6 +134,9 @@ const RODYTI_IŠ_KARTO = 16;
 const RODYTI_DAUGIAU  = 16;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Pagrindiniame puslapyje nuotraukų blokas su "nuotraukos/..." turi būti visiškai paslėptas/pašalintas.
+  const mainPhotosBlock = document.getElementById('paslaugu-nuotraukos');
+  if (mainPhotosBlock) mainPhotosBlock.remove();
 
   /* ── Fono video: autoplay po naršyklės apribojimų (muted) ── */
   document.querySelectorAll('video.hero-video-bg, video.section-bg-video').forEach((v) => {
