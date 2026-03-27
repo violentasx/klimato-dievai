@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   atvesk – JavaScript
+   Atvėsk – JavaScript
    ═══════════════════════════════════════════ */
 
 const VISI_VAIZDAI = [
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const img = document.createElement('img');
       img.src = VISI_VAIZDAI[i];
-      img.alt = `atvesk – darbas ${i + 1}`;
+      img.alt = `Atvėsk – darbas ${i + 1}`;
       img.loading = 'lazy';
 
       const overlay = document.createElement('div');
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function atnaujintiLightbox() {
     lbImg.src = VISI_VAIZDAI[lbIndex];
-    lbTitle.textContent = `atvesk – Darbas #${lbIndex + 1}`;
+    lbTitle.textContent = `Atvėsk – Darbas #${lbIndex + 1}`;
     lbCounter.textContent = `${lbIndex + 1} / ${VISI_VAIZDAI.length}`;
     lbPrev.style.opacity = lbIndex === 0 ? '0.3' : '1';
     lbNext.style.opacity = lbIndex === VISI_VAIZDAI.length - 1 ? '0.3' : '1';
@@ -324,7 +324,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const btn = document.getElementById('submitBtn');
       btn.innerHTML = '<span>Siunčiama...</span>';
       btn.style.opacity = '0.7';
-      setTimeout(() => { form.style.display = 'none'; formSuccess.classList.add('show'); }, 800);
+      btn.disabled = true;
+
+      const vardas = document.getElementById('name')?.value || '';
+      const tel = document.getElementById('phone')?.value || '';
+      const email = document.getElementById('email')?.value || '';
+      const paslauga = document.getElementById('service')?.value || 'Nenurodyta';
+      const zinute = document.getElementById('message')?.value || '';
+
+      const subject = encodeURIComponent('Nauja paslaugų užklausa – ' + paslauga);
+      const body = encodeURIComponent(
+        'NAUJA PASLAUGŲ UŽKLAUSA\n' +
+        '═══════════════════════\n\n' +
+        'Vardas: ' + vardas + '\n' +
+        'Telefonas: ' + tel + '\n' +
+        'El. paštas: ' + (email || 'Nenurodytas') + '\n' +
+        'Paslauga: ' + paslauga + '\n\n' +
+        'Žinutė:\n' + (zinute || 'Neįvesta')
+      );
+
+      const mailtoLink = 'mailto:lukmantas@gmail.com?subject=' + subject + '&body=' + body;
+
+      setTimeout(() => {
+        window.location.href = mailtoLink;
+        form.style.display = 'none';
+        formSuccess.classList.add('show');
+      }, 800);
     });
   }
 
@@ -671,6 +696,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(bounce);
   }, 10000);
 
-  console.log('%catvesk ⚡🌡️', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
+  console.log('%cAtvėsk', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
   console.log(`%c${VISI_VAIZDAI.length} nuotraukų | lukmantas@gmail.com`, 'color: #64748b;');
 });
