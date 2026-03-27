@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atvesk - Pardavimai</title>
+  <meta name="description" content="Atvesk – kondicionierių pardavimai su specialia nuolaida." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: radial-gradient(circle at top, #111827 0%, #080d14 55%); }
+    .sales-wrap { padding-top: 110px; padding-bottom: 70px; }
+    .sales-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .sales-top h1 { margin: 0; font-size: clamp(22px, 3vw, 34px); }
+    .sales-note { margin: 8px 0 0; color: var(--text-muted); }
+    .sales-back { white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="header-inner">
+      <a href="index.html#hero" class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Atvė<strong>sk</strong></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="index.html#apie">Apie</a>
+        <a href="index.html#paslaugos">Paslaugos</a>
+        <a href="index.html#freoninis-remontas">Remontas</a>
+        <a href="galerija.html">Atlikti darbai</a>
+        <a href="pardavimai.html">Pardavimai</a>
+        <a href="mailto:lukmantas@gmail.com">Kontaktai</a>
+      </nav>
+      <div class="nav-cta-stack">
+        <a href="mailto:lukmantas@gmail.com" class="btn btn-primary nav-cta">Gauti pasiūlymą</a>
+        <a href="galerija.html" class="nav-shine-link">Atlikti darbai ✨</a>
+      </div>
+      <a href="index.html" class="btn btn-ghost sales-back">Grįžti į pagrindinį</a>
+    </div>
+  </header>
+
+  <main class="section sales-wrap">
+    <div class="container">
+      <div class="sales-top">
+        <div>
+          <h1>Pardavimai</h1>
+          <p class="sales-note">Kainos su 5% nuolaida (maks. 60 €).</p>
+        </div>
+      </div>
+
+      <div class="products-grid reveal" id="productsGrid"></div>
+      <div class="status" id="salesStatus" style="display:none"></div>
+    </div>
+  </main>
+
+  <script src="salna-models.js"></script>
+  <script>
+    (function () {
+      const grid = document.getElementById('productsGrid');
+      const status = document.getElementById('salesStatus');
+
+      function formatEur(n) {
+        return new Intl.NumberFormat('lt-LT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + ' €';
+      }
+
+      function skaiciuotiMusuKaina(salnaKaina) {
+        const nuolaida = Math.min(salnaKaina * 0.05, 60);
+        const musu = salnaKaina - nuolaida;
+        return { musu, nuolaida };
+      }
+
+      const modeliai = Array.isArray(window.SALNA_MODELS) ? window.SALNA_MODELS : [];
+      if (!modeliai.length) {
+        status.style.display = 'block';
+        status.className = 'status';
+        status.textContent = 'Nepavyko įkelti prekių sąrašo.';
+        return;
+      }
+
+      const list = modeliai
+        .filter((m) => Number(m.kaina_EUR) > 0)
+        .sort((a, b) => Number(a.kaina_EUR) - Number(b.kaina_EUR));
+
+      grid.innerHTML = '';
+      list.forEach((m, idx) => {
+        const salnaKaina = Number(m.kaina_EUR);
+        const { musu, nuolaida } = skaiciuotiMusuKaina(salnaKaina);
+        const energetine = m.energijos_klase || 'A++';
+        const tipas = m.tipas || 'Sieninis kondicionierius';
+        const imageUrl = m.imageUrl || 'img/kondicionieriai/2025-04-17/IMG_20250417_131347.jpg';
+        const brand = m.gamintojas || 'Gamintojas';
+        const modelis = m.modelis || 'Modelis';
+        const galia = Number(m.galia_kW || 0) ? Number(m.galia_kW).toFixed(1).replace('.', ',') : 'n/d';
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="product-img-wrap">
+            <img src="${imageUrl}" alt="${modelis}" class="product-img" loading="lazy" referrerpolicy="no-referrer" />
+            ${idx < 3 ? '<div class="product-badge">Populiaru</div>' : ''}
+          </div>
+          <div class="product-body">
+            <div class="product-brand">${brand}</div>
+            <h3>${modelis}</h3>
+            <p>${tipas}. Energijos klasė ${energetine}.</p>
+            <div class="product-price">Mūsų kaina: <strong>${formatEur(musu)}</strong></div>
+            <div class="product-price-note">Bazė: ${formatEur(salnaKaina)} (nuolaida ${formatEur(nuolaida)}, max 60 €)</div>
+            <ul class="product-specs">
+              <li>📊 Galia: ${galia} kW</li>
+              <li>🌡️ Energijos klasė: ${energetine}</li>
+            </ul>
+            <a href="mailto:lukmantas@gmail.com?subject=${encodeURIComponent('Užklausa dėl produkto – ' + brand + ' ' + modelis)}" class="btn btn-primary product-btn">Užklausti</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    })();
+  </script>
+</body>
+</html>
+
