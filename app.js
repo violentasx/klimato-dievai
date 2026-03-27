@@ -191,6 +191,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 100);
 
+  /* ── Atsiliepimai: po vieną kas 10 val. ── */
+  (function valdytiAtsiliepimus() {
+    const reviewCards = Array.from(document.querySelectorAll('#atsiliepimai .review-card'));
+    if (!reviewCards.length) return;
+
+    const INTERVAL_MS = 10 * 60 * 60 * 1000; // 10 valandų
+    const START_KEY = 'atvesk_reviews_start_ts_v1';
+    const now = Date.now();
+    let startTs = Number(localStorage.getItem(START_KEY) || 0);
+
+    if (!startTs || Number.isNaN(startTs) || startTs > now) {
+      startTs = now;
+      localStorage.setItem(START_KEY, String(startTs));
+    }
+
+    // Iš pradžių rodomas 1 atsiliepimas, vėliau kas 10 val. atsiranda po dar vieną.
+    const elapsed = Math.max(0, now - startTs);
+    const visibleCount = Math.min(reviewCards.length, 1 + Math.floor(elapsed / INTERVAL_MS));
+
+    reviewCards.forEach((card, idx) => {
+      card.style.display = idx < visibleCount ? '' : 'none';
+    });
+  })();
+
   /* ── Parallax ── */
   const heroContent = document.querySelector('.hero-content');
   window.addEventListener('scroll', () => {
