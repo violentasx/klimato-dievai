@@ -3,140 +3,418 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Atvesk - Nuotraukų galerija</title>
+  <title>Atvesk – Atlikti darbai | Nuotraukų galerija</title>
+  <meta name="description" content="Atvėsk – realūs montavimo, remonto ir profilaktikos darbai. Peržiūrėkite nuotraukas pagal kategorijas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b1220;
-      --card: #121a2b;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #38bdf8;
-      --border: #1f2937;
+      --bg-deep: #030712;
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --accent: #0ea5e9;
+      --accent-soft: rgba(14, 165, 233, 0.15);
+      --accent-glow: rgba(14, 165, 233, 0.35);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.12);
+      --radius: 16px;
+      --radius-lg: 22px;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: radial-gradient(circle at top, #111827 0%, var(--bg) 55%);
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: var(--text);
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(14, 165, 233, 0.18), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 100% 50%, rgba(59, 130, 246, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(14, 165, 233, 0.06), transparent);
     }
-    .wrap { width: min(1300px, 94vw); margin: 0 auto; padding: 22px 0 46px; }
-    .topbar {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      position: sticky; top: 0; z-index: 10; padding: 12px 0;
-      backdrop-filter: blur(6px);
-      background: linear-gradient(to bottom, rgba(11,18,32,.88), rgba(11,18,32,.58));
+
+    .shell {
+      width: min(1240px, 92vw);
+      margin: 0 auto;
+      padding: 0 0 64px;
     }
-    .title { margin: 0; font-size: clamp(22px, 3.2vw, 34px); }
-    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
-    .btn {
-      border: 1px solid #334155; color: #dbeafe; text-decoration: none;
-      padding: 10px 14px; border-radius: 10px; background: #0f172a;
+
+    /* Viršus */
+    .hero-bar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 18px 0 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: linear-gradient(180deg, rgba(3, 7, 18, 0.92) 0%, rgba(3, 7, 18, 0.72) 85%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      border-radius: 2px;
+    }
+    .page-title {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .page-desc {
+      margin: 10px 0 0;
+      max-width: 520px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-back:hover {
+      border-color: rgba(14, 165, 233, 0.45);
+      box-shadow: 0 8px 32px rgba(14, 165, 233, 0.12);
+      transform: translateY(-1px);
+    }
+    .btn-back span { opacity: 0.85; }
+
+    /* Kategorijų tinklelis */
+    .section-label {
+      margin: 36px 0 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.06em;
     }
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
     }
     .category-card {
+      position: relative;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #0f172a;
-      padding: 18px;
-      cursor: pointer;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      border-radius: var(--radius-lg);
+      padding: 22px 22px 20px;
       text-align: left;
-      color: var(--text);
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      background: var(--bg-card);
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s, box-shadow 0.25s;
+    }
+    .category-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-soft), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s;
     }
     .category-card:hover {
       transform: translateY(-4px);
-      border-color: #334155;
-      box-shadow: 0 10px 25px rgba(0,0,0,.28);
+      border-color: rgba(14, 165, 233, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(14, 165, 233, 0.08);
     }
-    .category-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .category-sub { color: var(--muted); font-size: 13px; }
+    .category-card:hover::before { opacity: 1; }
+    .cat-icon {
+      position: relative;
+      font-size: 1.75rem;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+    .cat-title {
+      position: relative;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .cat-sub {
+      position: relative;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .cat-arrow {
+      position: relative;
+      margin-top: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Galerijos antraštė */
     .gallery-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin: 16px 0 14px;
+      gap: 14px;
       flex-wrap: wrap;
+      margin: 8px 0 20px;
     }
-    .gallery-title { margin: 0; font-size: clamp(18px, 2.5vw, 28px); }
-    .grid {
+    .gallery-title-wrap h2 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .gallery-title-wrap p {
+      margin: 6px 0 0;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.5);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(14, 165, 233, 0.4);
+      background: rgba(14, 165, 233, 0.08);
+    }
+
+    .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
     }
-    .item {
-      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      background: var(--card); cursor: zoom-in;
+    .photo-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      cursor: zoom-in;
+      aspect-ratio: 4 / 3;
     }
-    .item img {
-      width: 100%; height: 200px; object-fit: cover; display: block;
-      transition: transform .25s ease;
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
     }
-    .item:hover img { transform: scale(1.04); }
-    .cap {
-      padding: 8px 10px; font-size: 12px; color: var(--muted);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    .photo-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(3, 7, 18, 0.75));
+      opacity: 0;
+      transition: opacity 0.25s;
     }
-    .status {
-      border: 1px dashed #334155; border-radius: 12px; color: #cbd5e1;
-      padding: 14px; margin-top: 14px;
+    .photo-item:hover img { transform: scale(1.06); }
+    .photo-item:hover::after { opacity: 1; }
+    .photo-cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 14px;
+      font-size: 0.7rem;
+      color: #cbd5e1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
     }
+    .photo-item:hover .photo-cap {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .status-box {
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .status-box strong { color: var(--text); }
+
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .page-footer a { color: var(--accent); text-decoration: none; }
+    .page-footer a:hover { text-decoration: underline; }
+
+    /* Lightbox */
     .lightbox {
-      position: fixed; inset: 0; z-index: 40; display: none;
-      background: rgba(2, 6, 23, .92);
-      align-items: center; justify-content: center; padding: 16px;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(3, 7, 18, 0.94);
+      backdrop-filter: blur(8px);
     }
     .lightbox.open { display: flex; }
-    .lb-inner { width: min(96vw, 1200px); }
-    .lb-head {
-      display: flex; justify-content: space-between; align-items: center; gap: 10px;
-      color: #cbd5e1; margin-bottom: 10px;
+    .lb-box {
+      width: min(96vw, 1180px);
     }
-    .lb-img-wrap {
-      border: 1px solid #334155; border-radius: 14px; overflow: hidden; background: #020617;
-      max-height: calc(100vh - 110px);
+    .lb-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
-    .lb-img { width: 100%; max-height: calc(100vh - 110px); object-fit: contain; display: block; }
-    .lb-actions { display: flex; gap: 8px; }
-    .lb-btn, .lb-close {
-      border: 1px solid #334155; color: #e2e8f0; background: #0f172a;
-      border-radius: 10px; padding: 8px 12px; cursor: pointer;
+    .lb-caption {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    .lb-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .lb-btn {
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.85);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .lb-btn:hover {
+      border-color: rgba(14, 165, 233, 0.45);
+      background: rgba(14, 165, 233, 0.12);
+    }
+    .lb-btn--close {
+      border-color: rgba(248, 113, 113, 0.35);
+    }
+    .lb-btn--close:hover {
+      border-color: rgba(248, 113, 113, 0.55);
+      background: rgba(248, 113, 113, 0.1);
+    }
+    .lb-frame {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #020617;
+      max-height: calc(100vh - 120px);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    }
+    .lb-img {
+      width: 100%;
+      max-height: calc(100vh - 120px);
+      object-fit: contain;
+      display: block;
+      vertical-align: middle;
+    }
+    .lb-hint {
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div>
-        <h1 class="title">Nuotraukų galerija</h1>
-        <p class="subtitle">Pasirinkite skyrių ir peržiūrėkite nuotraukas</p>
+  <div class="shell">
+    <header class="hero-bar">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Atlikti darbai</p>
+          <h1 class="page-title">Nuotraukų galerija</h1>
+          <p class="page-desc">
+            Peržiūrėkite mūsų atliktus darbus: sumontuoti kondicionieriai, šilumos siurbliai, šaldymo kambariai, profilaktika ir remontas.
+            Pasirinkite kategoriją žemiau.
+          </p>
+        </div>
+        <a class="btn-back" href="index.html"><span aria-hidden="true">←</span> Grįžti į pagrindinį</a>
       </div>
-      <a class="btn" href="index.html">Grįžti į pagrindinį</a>
-    </div>
+    </header>
 
+    <p class="section-label" id="categoriesLabel">Kategorijos</p>
     <div id="categoryRoot"></div>
     <div id="galleryRoot"></div>
+
+    <footer class="page-footer">
+      © Atvėsk · <a href="index.html">Pagrindinis puslapis</a>
+    </footer>
   </div>
 
-  <div class="lightbox" id="lightbox">
-    <div class="lb-inner">
-      <div class="lb-head">
-        <div id="lbLabel"></div>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Nuotraukos peržiūra">
+    <div class="lb-box">
+      <div class="lb-toolbar">
+        <div class="lb-caption" id="lbLabel"></div>
         <div class="lb-actions">
-          <button class="lb-btn" id="lbPrev" type="button">Atgal</button>
-          <button class="lb-btn" id="lbNext" type="button">Pirmyn</button>
-          <button class="lb-close" id="lbClose" type="button">Uždaryti</button>
+          <button class="lb-btn" id="lbPrev" type="button">Ankstesnė</button>
+          <button class="lb-btn" id="lbNext" type="button">Kita</button>
+          <button class="lb-btn lb-btn--close" id="lbClose" type="button">Uždaryti</button>
         </div>
       </div>
-      <div class="lb-img-wrap">
-        <img id="lbImg" class="lb-img" alt="Galerijos nuotrauka" />
+      <div class="lb-frame">
+        <img id="lbImg" class="lb-img" alt="" />
       </div>
+      <p class="lb-hint">Rodyklės klaviatūroje · Esc uždaryti</p>
     </div>
   </div>
 
@@ -144,6 +422,7 @@
     (async function () {
       const categoryRoot = document.getElementById('categoryRoot');
       const root = document.getElementById('galleryRoot');
+      const categoriesLabel = document.getElementById('categoriesLabel');
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lbImg');
       const lbLabel = document.getElementById('lbLabel');
@@ -152,16 +431,15 @@
       const lbClose = document.getElementById('lbClose');
 
       const CATEGORIES = [
-        { id: 'sumontuoti-kondicionieriai', title: 'Sumontuoti kondicionieriai', folder: 'nuotraukos/sumontavimai/' },
-        { id: 'silumos-siurbliai', title: 'Šilumos siurbliai', folder: 'nuotraukos/sumontavimai/' },
-        { id: 'saldymo-kambariai', title: 'Šaldymo kambariai', folder: 'nuotraukos/saldymokamera/' },
-        { id: 'kondicionieriu-profilaktika', title: 'Kondicionierių profilaktika', folder: 'nuotraukos/profilaktikos/' },
-        { id: 'remontas', title: 'Remontas', folder: 'nuotraukos/remontai/' }
+        { id: 'sumontuoti-kondicionieriai', title: 'Sumontuoti kondicionieriai', desc: 'Montavimo darbai ir įrenginiai', icon: '❄️', folder: 'nuotraukos/sumontavimai/' },
+        { id: 'silumos-siurbliai', title: 'Šilumos siurbliai', desc: 'Oras–oras ir kitos sistemos', icon: '🌡️', folder: 'nuotraukos/sumontavimai/' },
+        { id: 'saldymo-kambariai', title: 'Šaldymo kambariai', desc: 'Komerciniai ir pramoniniai objektai', icon: '🏭', folder: 'nuotraukos/saldymokamera/' },
+        { id: 'kondicionieriu-profilaktika', title: 'Kondicionierių profilaktika', desc: 'Priežiūra ir aptarnavimas', icon: '✅', folder: 'nuotraukos/profilaktikos/' },
+        { id: 'remontas', title: 'Remontas', desc: 'Servisas ir gedimų šalinimas', icon: '🛠️', folder: 'nuotraukos/remontai/' }
       ];
 
       let allPhotos = [];
       let currentIndex = 0;
-      let currentCategory = null;
 
       function openLightbox(i) {
         currentIndex = i;
@@ -178,7 +456,8 @@
       function renderLightbox() {
         const p = allPhotos[currentIndex];
         lbImg.src = p.src;
-        lbLabel.textContent = p.group + ' - ' + (currentIndex + 1) + ' / ' + allPhotos.length;
+        lbImg.alt = p.group + ' – nuotrauka ' + (currentIndex + 1);
+        lbLabel.textContent = p.group + ' · ' + (currentIndex + 1) + ' iš ' + allPhotos.length;
         lbPrev.style.opacity = currentIndex === 0 ? '0.45' : '1';
         lbNext.style.opacity = currentIndex === allPhotos.length - 1 ? '0.45' : '1';
       }
@@ -188,14 +467,14 @@
       const GH_BRANCH = 'master';
 
       async function gautiNuotraukasIsGithubApi(folder) {
-        const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${folder}?ref=${GH_BRANCH}`;
+        const apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + folder + '?ref=' + GH_BRANCH;
         const res = await fetch(apiUrl, { cache: 'no-store' });
         if (!res.ok) throw new Error('GitHub API negrąžino nuotraukų: ' + folder);
         const data = await res.json();
         if (!Array.isArray(data)) return [];
         return data
-          .filter((f) => f && f.type === 'file' && /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name))
-          .map((f) => f.download_url || f.path)
+          .filter(function (f) { return f && f.type === 'file' && /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name); })
+          .map(function (f) { return f.download_url || f.path; })
           .filter(Boolean);
       }
 
@@ -203,38 +482,49 @@
         const res = await fetch(folder, { cache: 'no-store' });
         if (!res.ok) throw new Error('Nepavyko atidaryti aplanko: ' + folder);
         const html = await res.text();
-        const matches = [...html.matchAll(/href="([^"]+\.(?:jpg|jpeg|png|webp|gif))"/gi)];
+        var matches = [...html.matchAll(/href="([^"]+\.(?:jpg|jpeg|png|webp|gif))"/gi)];
         return matches
-          .map((m) => m[1])
-          .filter((p) => !p.startsWith('http'))
-          .filter((p) => !p.includes('../'))
-          .map((p) => folder + p.replace(/^\.\//, ''));
+          .map(function (m) { return m[1]; })
+          .filter(function (p) { return !p.startsWith('http'); })
+          .filter(function (p) { return !p.includes('../'); })
+          .map(function (p) { return folder + p.replace(/^\.\//, ''); });
       }
 
       async function gautiNuotraukasIsKatalogo(folder) {
-        // GitHub Pages aplinkoje katalogų "listing" dažniausiai neveikia,
-        // todėl pirmiausia bandome per GitHub API.
         try {
-          const gh = await gautiNuotraukasIsGithubApi(folder);
+          var gh = await gautiNuotraukasIsGithubApi(folder);
           if (gh.length) return gh;
         } catch (_) {}
-
-        // Fallback vietiniam paleidimui (python/http.server ir pan.).
-        const local = await gautiNuotraukasIsVietinioAplanko(folder);
+        var local = await gautiNuotraukasIsVietinioAplanko(folder);
         return Array.from(new Set(local));
+      }
+
+      function nuotraukosZodis(n) {
+        n = Math.abs(n) % 100;
+        if (n >= 11 && n <= 19) return 'nuotraukų';
+        var i = n % 10;
+        if (i === 1) return 'nuotrauka';
+        if (i >= 2 && i <= 9) return 'nuotraukos';
+        return 'nuotraukų';
       }
 
       function rodytiKategorijas() {
         root.innerHTML = '';
-        const wrap = document.createElement('div');
+        if (categoriesLabel) categoriesLabel.style.display = '';
+        var wrap = document.createElement('div');
         wrap.className = 'category-grid';
 
-        CATEGORIES.forEach((cat) => {
-          const card = document.createElement('button');
+        CATEGORIES.forEach(function (cat) {
+          var card = document.createElement('button');
           card.type = 'button';
           card.className = 'category-card';
-          card.innerHTML = '<div class="category-title">' + cat.title + '</div><div class="category-sub">Atidaryti nuotraukas</div>';
-          card.addEventListener('click', () => rodytiKategorijosNuotraukas(cat));
+          card.setAttribute('aria-label', 'Atidaryti kategoriją: ' + cat.title);
+          card.innerHTML =
+            '<div class="cat-icon" aria-hidden="true">' + cat.icon + '</div>' +
+            '<div class="cat-title">' + cat.title + '</div>' +
+            '<div class="cat-sub">' + cat.desc + '</div>' +
+            '<div class="cat-arrow">Žiūrėti nuotraukas <span aria-hidden="true">→</span></div>';
+          card.addEventListener('click', function () { rodytiKategorijosNuotraukas(cat); });
           wrap.appendChild(card);
         });
 
@@ -243,49 +533,53 @@
       }
 
       async function rodytiKategorijosNuotraukas(cat) {
-        currentCategory = cat;
+        if (categoriesLabel) categoriesLabel.style.display = 'none';
         categoryRoot.innerHTML = '';
-        root.innerHTML = '<div class="status">Kraunamos nuotraukos...</div>';
+        root.innerHTML = '<div class="status-box"><strong>Kraunama…</strong><br/>Gaunamos nuotraukos iš katalogo.</div>';
 
         try {
-          const photos = await gautiNuotraukasIsKatalogo(cat.folder);
-          allPhotos = photos.map((src) => ({ src, group: cat.title }));
+          var photos = await gautiNuotraukasIsKatalogo(cat.folder);
+          allPhotos = photos.map(function (src) { return { src: src, group: cat.title }; });
 
           if (!allPhotos.length) {
-            root.innerHTML = '<div class="status">Šioje kategorijoje nuotraukų dar nėra.</div>';
+            root.innerHTML = '<div class="status-box">Šioje kategorijoje nuotraukų <strong>dar nėra</strong>. Patikrinkite vėliau arba susisiekite su mumis.</div>';
             return;
           }
 
-          const head = document.createElement('div');
+          var head = document.createElement('div');
           head.className = 'gallery-head';
-          head.innerHTML = '<h2 class="gallery-title">' + cat.title + '</h2>';
+          var titleWrap = document.createElement('div');
+          titleWrap.className = 'gallery-title-wrap';
+          titleWrap.innerHTML = '<h2>' + cat.title + '</h2><p>Šioje kategorijoje: <strong>' + allPhotos.length + '</strong> ' + nuotraukosZodis(allPhotos.length) + '</p>';
 
-          const backBtn = document.createElement('button');
+          var backBtn = document.createElement('button');
           backBtn.type = 'button';
-          backBtn.className = 'lb-btn';
-          backBtn.textContent = '← Atgal į skyrius';
+          backBtn.className = 'btn-ghost';
+          backBtn.innerHTML = '← Grįžti prie kategorijų';
           backBtn.addEventListener('click', rodytiKategorijas);
+
+          head.appendChild(titleWrap);
           head.appendChild(backBtn);
 
-          const grid = document.createElement('div');
-          grid.className = 'grid';
+          var grid = document.createElement('div');
+          grid.className = 'photo-grid';
 
-          allPhotos.forEach((photo, i) => {
-            const item = document.createElement('article');
-            item.className = 'item';
+          allPhotos.forEach(function (photo, i) {
+            var item = document.createElement('article');
+            item.className = 'photo-item';
 
-            const img = document.createElement('img');
+            var img = document.createElement('img');
             img.src = photo.src;
-            img.alt = cat.title;
+            img.alt = cat.title + ' – ' + (i + 1);
             img.loading = 'lazy';
 
-            const cap = document.createElement('div');
-            cap.className = 'cap';
+            var cap = document.createElement('div');
+            cap.className = 'photo-cap';
             cap.textContent = photo.src.split('/').pop();
 
             item.appendChild(img);
             item.appendChild(cap);
-            item.addEventListener('click', () => openLightbox(i));
+            item.addEventListener('click', function () { openLightbox(i); });
             grid.appendChild(item);
           });
 
@@ -293,17 +587,17 @@
           root.appendChild(head);
           root.appendChild(grid);
         } catch (err) {
-          root.innerHTML = '<div class="status">Nepavyko įkelti kategorijos nuotraukų. Paleiskite puslapį per vietinį serverį.</div>';
+          root.innerHTML = '<div class="status-box">Nepavyko įkelti nuotraukų. Jei dirbate ne iš interneto, paleiskite svetainę per <strong>vietinį serverį</strong> (pvz. <code>python -m http.server</code>).</div>';
         }
       }
 
       rodytiKategorijas();
 
       lbClose.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-      lbPrev.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; renderLightbox(); } });
-      lbNext.addEventListener('click', () => { if (currentIndex < allPhotos.length - 1) { currentIndex++; renderLightbox(); } });
-      document.addEventListener('keydown', (e) => {
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+      lbPrev.addEventListener('click', function () { if (currentIndex > 0) { currentIndex--; renderLightbox(); } });
+      lbNext.addEventListener('click', function () { if (currentIndex < allPhotos.length - 1) { currentIndex++; renderLightbox(); } });
+      document.addEventListener('keydown', function (e) {
         if (!lightbox.classList.contains('open')) return;
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; renderLightbox(); }
